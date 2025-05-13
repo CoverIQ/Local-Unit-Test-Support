@@ -1,10 +1,11 @@
 import subprocess
 from typing import List
+import os
 
 def get_changed_files(repo_path: str) -> List[str]:
     cmd = ["git", "-C", repo_path, "diff", "--name-only", "HEAD~1", "HEAD"]
     result = subprocess.run(cmd, capture_output=True, text=True)
-    print(result.stdout)
+    # print(result.stdout)
     return result.stdout.strip().split("\n")
 
 def get_diff(repo_path: str, file_path: str) -> str:
@@ -12,7 +13,18 @@ def get_diff(repo_path: str, file_path: str) -> str:
     result = subprocess.run(cmd, capture_output=True, text=True)
     return result.stdout
 
+def load_file(repo_path, file_path):
+    with open(os.path.join(repo_path, file_path)) as f:
+        return f.read()
 
+def load_file_from_previous_commit(repo_path: str, file_path: str) -> str:
+    cmd = ["git", "-C", repo_path, "show", f"HEAD~1:{file_path}"]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        print(f"Warning: Could not load previous version of {file_path}")
+        return ""
+    return result.stdout
+    
 if __name__ == "__main__":
     import sys
     repo_path = sys.argv[1]
@@ -20,4 +32,4 @@ if __name__ == "__main__":
     for file in changed_files:
         print(f"Changed file: {file}")
         diff = get_diff(repo_path, file)
-        print("\n get different: ",diff)
+        print("get different: ",diff)
