@@ -28,3 +28,9 @@ git pull origin dev
 4. If you want to merge to dev, open a Pull Request to merge.
 
 5. Notify other members to review and approve your pull request.
+
+## Run the Regression Test feature
+```bash
+# python RegressionTest/main.py source_path tests_path
+python RegressionTest/main.py . ./tests/
+```
