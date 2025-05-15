@@ -10,16 +10,17 @@ from llm_engine import suggest_test_changes
 from reporter import generate_markdown_report
 
 def main(repo_url, from_commit, to_commit, keep_repo):
-    dif_parser = GitDiffParser(repo_url, from_commit, to_commit, keep_repo)
-    test_dir=dif_parser.repo_path
-    changed_files = dif_parser.get_changed_files()
+    git_parser = GitDiffParser(repo_url, from_commit, to_commit, keep_repo)
+    test_dir=git_parser.repo_path
+    changed_files = git_parser.get_changed_files()
     for file in changed_files:
+        # ignore the file if it is not a python file
         if not file.endswith(".py"):
             continue
         
         print("current file: ", file)
-        before_code = dif_parser.load_file_from_previous_commit(file)
-        after_code = dif_parser.load_file(file)
+        before_code = git_parser.load_file_from_previous_commit(file)
+        after_code = git_parser.load_file(file)
         # print(after_code)
         changes = analyze_ast_diff(before_code, after_code)
         print(changes)
@@ -32,7 +33,7 @@ def main(repo_url, from_commit, to_commit, keep_repo):
         }
         
         report = generate_markdown_report(file,changes, related_tests, suggestions)
-        with open("report.txt", "a") as f:
+        with open("report.md", "a") as f:
             f.write(report)
 
 if __name__ == "__main__":
@@ -40,7 +41,7 @@ if __name__ == "__main__":
     parser.add_argument("repo_url", help="GitHub repository URL")
     parser.add_argument("--from", dest="from_commit", default="HEAD^", help="Base commit (default: HEAD^)")
     parser.add_argument("--to", dest="to_commit", default="HEAD", help="Target commit (default: HEAD)")
-    parser.add_argument("--keep", action="store_true", help="Keep cloned repo after diff (default: delete)")
+    parser.add_argument("--keep",  action="store_true", help="Keep cloned repo after diff (default: delete)")
 
     args = parser.parse_args()
     

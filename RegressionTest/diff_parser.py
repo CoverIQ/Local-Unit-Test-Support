@@ -35,7 +35,7 @@ class GitDiffParser:
         self.from_commit = from_commit
         self.to_commit = to_commit
         self.keep_repo = keep_repo
-        
+        # download the repo
         if keep_repo:
             temp_dir = Path("./cloned_repo")
             if temp_dir.exists():
@@ -83,9 +83,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     
-    dif_parser = GitDiffParser(args.repo_url, args.from_commit, args.to_commit, args.keep)
-    changed_files = dif_parser.get_changed_files()
+    git_parser = GitDiffParser(args.repo_url, args.from_commit, args.to_commit, args.keep)
+    changed_files = git_parser.get_changed_files()
     for file in changed_files:
         print(f"Changed file: {file}")
-        diff = dif_parser.get_diff(file)
+        diff = git_parser.get_diff(file)
         print("get different: ",diff)
