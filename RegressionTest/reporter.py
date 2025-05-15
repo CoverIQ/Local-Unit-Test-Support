@@ -1,8 +1,9 @@
-def generate_markdown_report(changes: dict, related_tests: list, suggestions: dict) -> str:
-    report = "# Regression Test Maintenance Report\n\n"
+def generate_markdown_report(file_name:str,changes: dict, related_tests: list, suggestions: dict) -> str:
+    report = f"# Regression Test Maintenance Report For {file_name}\n\n"
     
     report += "## Function Changes\n"
     report += f"- Added: {', '.join(changes.get('added', []))}\n"
+    report += f"- Modified: {', '.join(changes.get('modified', []))}\n"
     report += f"- Removed: {', '.join(changes.get('removed', []))}\n\n"
 
     report += "## Affected Tests\n"
