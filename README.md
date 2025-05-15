@@ -1,36 +1,18 @@
-# Contributing
-## Branching Strategy
-- main – stable production-ready code
-- dev – development integration branch
-- feature/xxx new features that are in progress
+# Regression Testing Roport Tool
+## Module lists
+- diff_parser
+    - According to the git link output the relative code changing   
+- ast_analyzer
+    - Deal with raw data which is the output of diff_parser, make it readable. 
+- test_linker
+    - Find the relative testing api
+- llm_engine
+    - use llm to give the user suggestion
+- reporter
+    - output a human frendily report
 
-## How to Contribute
-1. Create a new branch from dev:
-```bash
-git checkout dev
-git pull
-git checkout -b feature/my-feature
+## diff_parser.GitDiffParser
+* How to use: check the diff_parser.main for more detail
 ```
-
-2. Commit and push your changes:
-```bash
-git add .
-git commit -m "Add my feature"
-git push origin feature/my-feature
-```
-
-3. Regularly pull from dev if you want to stay updated and reduce merge conflicts.
-```bash
-git checkout feature/my-feature
-git pull origin dev
-```
-
-4. If you want to merge to dev, open a Pull Request to merge.
-
-5. Notify other members to review and approve your pull request.
-
-## Run the Regression Test feature
-```bash
-# python RegressionTest/main.py source_path tests_path
-python RegressionTest/main.py . ./tests/
+python ./RegressionTest/diff_parser.py https://github.com/CoverIQ/CoverIQ-Test-Assistant
 ```

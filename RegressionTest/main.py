@@ -9,8 +9,8 @@ from test_linker import guess_related_tests
 from llm_engine import suggest_test_changes
 from reporter import generate_markdown_report
 
-def main(repo_url, from_commit, to_commit, keep_repo, output_path):
-    dif_parser = GitDiffParser(repo_url, from_commit, to_commit, keep_repo, output_path)
+def main(repo_url, from_commit, to_commit, keep_repo):
+    dif_parser = GitDiffParser(repo_url, from_commit, to_commit, keep_repo)
     test_dir=dif_parser.repo_path
     changed_files = dif_parser.get_changed_files()
     for file in changed_files:
@@ -41,8 +41,7 @@ if __name__ == "__main__":
     parser.add_argument("--from", dest="from_commit", default="HEAD^", help="Base commit (default: HEAD^)")
     parser.add_argument("--to", dest="to_commit", default="HEAD", help="Target commit (default: HEAD)")
     parser.add_argument("--keep", action="store_true", help="Keep cloned repo after diff (default: delete)")
-    parser.add_argument("--output", help="File path to save diff output (optional)")
 
     args = parser.parse_args()
     
-    main(args.repo_url, args.from_commit, args.to_commit, args.keep, args.output)
+    main(args.repo_url, args.from_commit, args.to_commit, args.keep)

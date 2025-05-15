@@ -31,11 +31,10 @@ def load_file_from_previous_commit(repo_path: str, file_path: str, from_commit:s
     return result.stdout
 
 class GitDiffParser:
-    def __init__(self,repo_url, from_commit="HEAD^", to_commit="HEAD", keep_repo=False, output_path='./diff_output.txt'):
+    def __init__(self,repo_url, from_commit="HEAD^", to_commit="HEAD", keep_repo=False):
         self.from_commit = from_commit
         self.to_commit = to_commit
         self.keep_repo = keep_repo
-        self.output_path = output_path
         
         if keep_repo:
             temp_dir = Path("./cloned_repo")
@@ -81,11 +80,10 @@ if __name__ == "__main__":
     parser.add_argument("--from", dest="from_commit", default="HEAD^", help="Base commit (default: HEAD^)")
     parser.add_argument("--to", dest="to_commit", default="HEAD", help="Target commit (default: HEAD)")
     parser.add_argument("--keep", action="store_true", help="Keep cloned repo after diff (default: delete)")
-    parser.add_argument("--output", help="File path to save diff output (optional)")
 
     args = parser.parse_args()
     
-    dif_parser = GitDiffParser(args.repo_url, args.from_commit, args.to_commit, args.keep, args.output)
+    dif_parser = GitDiffParser(args.repo_url, args.from_commit, args.to_commit, args.keep)
     changed_files = dif_parser.get_changed_files()
     for file in changed_files:
         print(f"Changed file: {file}")
