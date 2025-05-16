@@ -4,6 +4,7 @@ def generate_markdown_report(file_name:str,changes: dict, related_tests: list, s
     report += "## Function Changes\n"
     report += f"- Added: {', '.join(changes.get('added', []))}\n"
     report += f"- Modified: {', '.join(changes.get('modified', []))}\n"
+    report += f"- indirect_dependents: {', '.join(changes.get('indirect_dependents', []))}\n"
     report += f"- Removed: {', '.join(changes.get('removed', []))}\n\n"
 
     report += "## Affected Tests\n"
