@@ -11,7 +11,30 @@
 - reporter
     - output a human frendily report
 
-## diff_parser.GitDiffParser
+## GitDiffParser
+ `GitDiffParser` is a Python tool for analyzing file-level differences between two commits in a GitHub repository. It automatically clones the repository, compares file versions between the specified commits, and outputs diffs for each changed file.
+
+---
+
+### 🚀 Features
+
+- Clone any public GitHub repository (temporary or persistent).
+- Show which files changed between two commits.
+- View the diff content of each changed file.
+- Load full file content from both the current and previous commits.
+
+---
+
+### 🧰 Requirements
+
+- Python 3.6+
+- Git must be installed and available in your system's PATH
+
+---
+
+### 📦 Installation
+
+No installation needed. Just clone this repository and run the script directly:
 ### API
 * init: clone the target repo
 * get_changed_files: list the files which have been changed
