@@ -35,6 +35,12 @@
 ### 📦 Installation
 
 No installation needed. Just clone this repository and run the script directly:
+### Add .env
+* Add .env under `RegressionTest` folder
+* Edit .env file and add GEMINI_API_KEY into it
+```
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+```
 ### API
 * init: clone the target repo
 * get_changed_files: list the files which have been changed
@@ -65,4 +71,22 @@ python ./RegressionTest/diff_parser.py https://github.com/CoverIQ/CoverIQ-Test-A
 python ./RegressionTest/diff_parser.py https://github.com/CoverIQ/CoverIQ-Test-Assistant --from abc123 --to def456
 
 python ./RegressionTest/diff_parser.py https://github.com/CoverIQ/CoverIQ-Test-Assistant --keep
+```
+
+
+#### Test run-test.yml on local
+1. If you are using Windows, please install [chocolatey](https://chocolatey.org/install) first  
+**ensure that you are using an administrative shell to install chocolatey**   
+2. Install act-cli
+```
+choco install act-cli
+```
+3. Comment the following lines in run-test.yml
+```
+env:
+    GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+```
+4. Go to root directory and run the following command while opening docker 
+```
+act pull_request --env-file RegressionTest/.env --artifact-server-path ./artifacts
 ```

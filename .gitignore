@@ -152,5 +152,7 @@ dmypy.json
 
 try.ipynb
 
-*.txt
+# *.txt
 report.md
+# .env
+**/.env

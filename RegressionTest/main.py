@@ -12,9 +12,9 @@ from reporter import generate_markdown_report
 def main(repo_url, from_commit, to_commit, keep_repo):
     git_parser = GitDiffParser(repo_url, from_commit, to_commit, keep_repo)
     repo_path = git_parser.repo_path
-
+    report_path = os.path.join(os.path.dirname(__file__), "report.md")
     # Clear previous report
-    with open("report.md", "w") as f:
+    with open(report_path, "w") as f:
         f.write("# Test Maintenance Report\n\n")
 
     # Step 1: Get changed files and functions
@@ -71,7 +71,7 @@ def main(repo_url, from_commit, to_commit, keep_repo):
                         {func: [test_path] for func in funcs},
                         suggestions
                     )
-                    with open("report.md", "a") as f:
+                    with open(report_path, "a") as f:
                         f.write(report)
 
 if __name__ == "__main__":

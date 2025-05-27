@@ -13,6 +13,9 @@ def generate_markdown_report(file_name:str,changes: dict, related_tests: list, s
     
     report += "\n## LLM Suggestions\n"
     for func, suggestion in suggestions.items():
-        report += f"**{func}**:\n> {suggestion}\n\n"
+        # report += f"**{func}**:\n> {suggestion}\n\n"
+        report += f"**{func}**:\n"
+        for each_suggestion in suggestion:
+            report += f"- {each_suggestion}\n"
     
     return report
