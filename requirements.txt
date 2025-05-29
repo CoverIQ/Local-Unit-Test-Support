@@ -37,3 +37,4 @@ typing_extensions==4.13.2
 uritemplate==4.1.1
 urllib3==2.4.0
 websockets==15.0.1
+faiss-cpu

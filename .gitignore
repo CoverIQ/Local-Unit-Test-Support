@@ -156,3 +156,6 @@ try.ipynb
 report.md
 # .env
 **/.env
+
+*.faiss
+metadata.json

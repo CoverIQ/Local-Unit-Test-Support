@@ -1,60 +1,181 @@
-# Regression Testing Roport Tool
-## Module lists
-- diff_parser
-    - According to the git link output the relative code changing   
-- ast_analyzer
-    - Deal with raw data which is the output of diff_parser, make it readable. 
-- test_linker
-    - Find the relative testing api
-- llm_engine
-    - use llm to give the user suggestion
-- reporter
-    - output a human frendily report
+# Unit Test Support Demo
+## Contents
+- [Introduction](#introduction)
+- [LLM Suggestion](#llm-suggestion)
+- [Examples](#add-test-example)
+- [Workflow](#workflow)
+- [Installation](#installation)
+- [Execution Examples](#execution-examples)
+## Introduction
+This tool leverages LLMs to analyze git diffs, affected test functions, and test code, providing suggestions on which tests to add, update, or remove.  
+We use [example repo](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git) to showcase how the tool works in practice. 
+## LLM Suggestion
+The LLM will generate a report that includes the following:
+- suggestion type
+- test function name
+- description
+- original code
+- updated code
+## `Add` Test Example
+[Commit Change Link](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo/commit/150831357ecca2d2ed946bf36ed4a85131276e77)
+### Commit Change
+Add `multiply` function in `math_utils.py`  
+However, No corresponding test function was added for the newly added function  
+```python
+def multiply(x, y):
+    return x * y
+```   
+### Suggestion
+- ### Description  
+Add test cases for the new 'multiply' function in math_utils.py.
+- ### Suggested Code Addition  
+```python
+from math_utils import add, subtract, pad_number, multiply
+def test_multiply():
+    result = multiply(2, 3)
+    assert result == 6
+    result = multiply(-2, 3)
+    assert result == -6
+    result = multiply(0, 5)
+    assert result == 0
+    result = multiply(-4, -5)
+    assert result == 20
+    result = multiply(2.5, 4)
+    assert result == 10.0
+```  
+[Full Report](RegressionTest/add_report.md)
 
-## GitDiffParser
- `GitDiffParser` is a Python tool for analyzing file-level differences between two commits in a GitHub repository. It automatically clones the repository, compares file versions between the specified commits, and outputs diffs for each changed file.
+## `Remove` Test Example
+[Commit Change Link](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo/commit/29445144fe589cb3a6086674a211f50db1579494)
+### Commit Change
+Remove `subtract` function in `math_utils.py`  
+```python
+def subtract(x, y):
+    return x - y
+```
+There are two functions in `test/test_math_utils.py` call `subtract` function
+```python
+def test_subtract():
+    result = subtract(10, 3)
+    assert result == 7
 
----
+def test_subtract_negative():
+    result = subtract(2, 3)
+    assert result == -1
+```
+### Suggestion
+The LLM gives two suggestions: one to remove `test_subtract`, and another to remove `test_subtract_negative`  
+Below is the first suggestion to remove `test_subtract`       
+- ### Description  
+The 'subtract' function has been removed from math_utils.py, so this (`test_subtract`) test for the removed function should also be removed.
+- ### Suggested Code Removal 
+```python
+def test_subtract():
+    result = subtract(10, 3)
+    assert result == 7
+```  
+[Full Report](RegressionTest/remove_report.md)
 
-### 🚀 Features
+## `Update` Test Example
+[Commit Change Link](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo/commit/cdebf828370103a7614175b07d0e83e8ed649ace)
+### Commit Change
+Changed the padding length in `pad_number` function in `math_utils.py` from 3 to 5   
+#### Original Code
+```python
+def pad_number(x):
+    return str(x).zfill(3)
+```
+#### Updated Code
+```python
+def pad_number(x):
+    return str(x).zfill(5)
+```
+### Suggestion
+The LLM suggests that `test_pad_num` should be modified      
+- ### Description  
+Update assertions to reflect the change in `pad_number` which now pads to a length of 5 instead of 3.
+- ### Original Code
+```python
+def test_pad_num():
+    result = pad_number(5)
+    assert result == '005'
+    
+    result = pad_number(123)
+    assert result == '123'
+    
+    result = pad_number(0)
+    assert result == '000'
+```
+- ### Suggested Code 
+```python
+ def test_pad_num():
+    result = pad_number(5)
+    assert result == '00005'
+    
+    result = pad_number(123)
+    assert result == '00123'
+    
+    result = pad_number(0)
+    assert result == '00000'
+```  
+[Full Report](RegressionTest/update_report.md)
 
-- Clone any public GitHub repository (temporary or persistent).
-- Show which files changed between two commits.
-- View the diff content of each changed file.
-- Load full file content from both the current and previous commits.
+## Workflow
+### 1. Get Code Chunks
+- Retrieve all relevant code files 
+- Parse each file into code chunks with metadata:
+  - `symbol_type` (e.g., function, class)
+  - `symbol_name`
+  - `file_path`
+  - `code`
 
----
+### 2. Generate Embeddings
+- Use the Gemini embedding model to generate embeddings for each code chunk
+- Store the embeddings in a FAISS index for similarity search
 
-### 🧰 Requirements
+### 3. Git Diff Parser
+- Clone the target repository
+- Compare file versions between the specified Git commits
+- Extract and output code diffs for each changed file
 
-- Python 3.6+
-- Git must be installed and available in your system's PATH
+### 4. Find Affected Test Functions
+- Parse all test files.
+- Construct call graphs to trace relationships
+- Identify test functions affected by code changes, either directly or indirectly
 
----
+### 5. Generate Suggestions
+- **Input**:
+  - Git diffs of changed files
+  - Metadata of affected test functions
+  - All test code
+- **Model**: Gemini 2.5
+- **Output Schema** (list of suggestions):
+  - `suggestion_type`
+  - `test_function_name`
+  - `description`
+  - `original_code`
+  - `updated_code`
 
-### 📦 Installation
+### 6. Export Report
+- Format and export all suggestions and metadata into a readable Markdown report
 
-No installation needed. Just clone this repository and run the script directly:
+## Installation
+### Python
+Python 3.9+
 ### Add .env
 * Add .env under `RegressionTest` folder
 * Edit .env file and add GEMINI_API_KEY into it
 ```
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 ```
-### API
-* init: clone the target repo
-* get_changed_files: list the files which have been changed
-* load_file: return the source code of the target commit
-* load_file_from_previous_commit: return the source code of the base commit
-* get_diff: return the git diff result between target and base commit
-#### Easy way to call api
-1. Inital the class with correct parameters
-2. use get_changed_files to get the name list of modified files
-3. load_file and load_file_from_previous_commit to load the specific function in the output of get_changed_files
-4. use the both output of load_file and load_file_from_previous_commit as an input of ast_analyzer to analyze different
+
+### Install Dependencies
+```bash
+pip install -r requirements.txt
+```
 ### Usage
 ```bash
-python ./RegressionTest/diff_parser.py <repo_url> [--from COMMIT] [--to COMMIT] [--keep] 
+python RegressionTest/get_report.py <repo_url> [--from commit] [--to commit] [--keep] [--output your_output_file_name]
 ```
 
 #### Options
@@ -62,31 +183,20 @@ python ./RegressionTest/diff_parser.py <repo_url> [--from COMMIT] [--to COMMIT] 
 - `--from`: Base commit (default: `HEAD^`)
 - `--to`: Target commit (default: `HEAD`)
 - `--keep`: Keep the cloned repo (default: repo is deleted after diff)
+- `--output`: Output File Name (default: `report`)
 
-#### Examples
-
+### Execution Examples
+#### `Add` Test Example
 ```bash
-python ./RegressionTest/diff_parser.py https://github.com/CoverIQ/CoverIQ-Test-Assistant
-
-python ./RegressionTest/diff_parser.py https://github.com/CoverIQ/CoverIQ-Test-Assistant --from abc123 --to def456
-
-python ./RegressionTest/diff_parser.py https://github.com/CoverIQ/CoverIQ-Test-Assistant --keep
+python RegressionTest/get_report.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --from=fe80de68f76600d43d1ddc3711ade55a64b03d0b --to=150831357ecca2d2ed946bf36ed4a85131276e77 --output=add_report
 ```
 
+#### `Remove` Test Example
+```bash
+python RegressionTest/get_report.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --output=remove_report
+```
 
-#### Test run-test.yml on local
-1. If you are using Windows, please install [chocolatey](https://chocolatey.org/install) first  
-**ensure that you are using an administrative shell to install chocolatey**   
-2. Install act-cli
-```
-choco install act-cli
-```
-3. Comment the following lines in run-test.yml
-```
-env:
-    GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-```
-4. Go to root directory and run the following command while opening docker 
-```
-act pull_request --env-file RegressionTest/.env --artifact-server-path ./artifacts
+#### `Update` Test Example
+```bash
+python RegressionTest/get_report.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --from=e4f8319c380af60f2e1607cfc2afbf3dd6ecdc63 --to=3bd666a1214fe5eea1e41e87ea59bf34d5548b17 --output=update_report
 ```
