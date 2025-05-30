@@ -178,7 +178,7 @@ pip install -r requirements.txt
 ```
 ### Usage
 ```bash
-python Local-Unit-Test-Support/get_report.py <repo_url> [--from commit] [--to commit] [--keep] [--output your_output_file_name]
+python Local-Unit-Test-Support/main.py <repo_url> [--from commit] [--to commit] [--keep] [--output your_output_file_name]
 ```
 
 #### Options
@@ -191,15 +191,15 @@ python Local-Unit-Test-Support/get_report.py <repo_url> [--from commit] [--to co
 ### Example Execution Commands
 #### `Add` Test Example
 ```bash
-python Local-Unit-Test-Support/get_report.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --from=fe80de68f76600d43d1ddc3711ade55a64b03d0b --to=150831357ecca2d2ed946bf36ed4a85131276e77 --output=add_report
+python Local-Unit-Test-Support/main.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --from=fe80de68f76600d43d1ddc3711ade55a64b03d0b --to=150831357ecca2d2ed946bf36ed4a85131276e77 --output=add_report
 ```
 
 #### `Remove` Test Example
 ```bash
-python Local-Unit-Test-Support/get_report.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --output=remove_report
+python Local-Unit-Test-Support/main.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --output=remove_report
 ```
 
 #### `Update` Test Example
 ```bash
-python Local-Unit-Test-Support/get_report.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --from=e4f8319c380af60f2e1607cfc2afbf3dd6ecdc63 --to=3bd666a1214fe5eea1e41e87ea59bf34d5548b17 --output=update_report
+python Local-Unit-Test-Support/main.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --from=e4f8319c380af60f2e1607cfc2afbf3dd6ecdc63 --to=3bd666a1214fe5eea1e41e87ea59bf34d5548b17 --output=update_report
 ```
