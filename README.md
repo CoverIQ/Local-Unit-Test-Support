@@ -1,5 +1,8 @@
+# ![CoverIQ Logo](Images/Logo.png)
+
 # Local Unit Test Support
 ### An AI-Powered `Local Unit Test Maintenance Solution` provided by `CoverIQ`. 
+
 ## Contents
 - [Introduction](#introduction)
 - [Examples](#add-test-example)
@@ -9,6 +12,7 @@
 - [System Workflow](#system-workflow)
 - [Installation](#installation)
 - [Example Execution Commands](#example-execution-commands)
+
 ## Introduction
 This tool leverages RAG to analyze git diffs, affected test functions, and test code, providing suggestions in a report with the following format: 
 - suggestion type
@@ -124,29 +128,34 @@ def test_pad_num():
 See more in the [Full Report](/Local-Unit-Test-Support//ExampleReports/update_report.md). 
 
 ## System Workflow
-### 1. Get Code Chunks
+![System Workflow](Images/Flowchart.png)
+
+### 1. Git Diff Extractor
+- Clone the target repository
+- Compare file versions between the specified Git commits
+- Extract and output code diffs for each changed file
+
+### 2. Vector Database Embedding
 - Retrieve all relevant code files 
 - Parse each file into code chunks with metadata:
   - `symbol_type` (e.g., function, class)
   - `symbol_name`
   - `file_path`
   - `code`
-
-### 2. Generate Embeddings
 - Use the Gemini embedding model to generate embeddings for each code chunk
 - Store the embeddings in a FAISS index for similarity search
 
-### 3. Git Diff Parser
-- Clone the target repository
-- Compare file versions between the specified Git commits
-- Extract and output code diffs for each changed file
-
-### 4. Find Affected Test Functions
+### 3. AST Parser
 - Parse all test files.
 - Construct call graphs to trace relationships
 - Identify test functions affected by code changes, either directly or indirectly
 
-### 5. Generate Suggestions
+### 4. Prompt Augementation
+- Augment prompts with: 
+    - Parsed git diff data -> affected tests
+    - Retrieved metadata data from vector database
+
+### 5. Suggestion Generation
 - **Input**:
   - Git diffs of changed files
   - Metadata of affected test functions
@@ -160,7 +169,7 @@ See more in the [Full Report](/Local-Unit-Test-Support//ExampleReports/update_re
   - `updated_code`
 
 ### 6. Export Report
-- Format and export all suggestions and metadata into a readable Markdown report
+Format and export all suggestions and metadata into a readable Markdown report
 
 ## Installation
 ### Python
