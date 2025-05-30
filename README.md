@@ -46,7 +46,7 @@ def test_multiply():
     result = multiply(2.5, 4)
     assert result == 10.0
 ```  
-[Full Report](RegressionTest/add_report.md)
+[Full Report](/Local-Unit-Test-Support/ExampleReports/add_report.md)
 
 ## `Remove` Test Example
 <!-- [Commit Change Link](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo/commit/29445144fe589cb3a6086674a211f50db1579494) -->
@@ -56,7 +56,7 @@ Remove `subtract` function in `math_utils.py`
 def subtract(x, y):
     return x - y
 ```
-There are two functions in `test/test_math_utils.py` call `subtract` function
+There are two functions in `test/test_math_utils.py` that call the `subtract` function
 ```python
 def test_subtract():
     result = subtract(10, 3)
@@ -77,7 +77,7 @@ def test_subtract():
     result = subtract(10, 3)
     assert result == 7
 ```   -->
-See more in the [Full Report](RegressionTest/remove_report.md).
+See more in the [Full Report](/Local-Unit-Test-Support/ExampleReports/remove_report.md).
 
 ## `Update` Test Example
 <!-- [Commit Change Link](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo/commit/cdebf828370103a7614175b07d0e83e8ed649ace) -->
@@ -121,7 +121,7 @@ def test_pad_num():
     result = pad_number(0)
     assert result == '00000'
 ```   -->
-See more in the [Full Report](RegressionTest/update_report.md). 
+See more in the [Full Report](/Local-Unit-Test-Support//ExampleReports/update_report.md). 
 
 ## System Workflow
 ### 1. Get Code Chunks
@@ -166,7 +166,7 @@ See more in the [Full Report](RegressionTest/update_report.md).
 ### Python
 Python 3.9+
 ### Add .env
-* Add .env under `RegressionTest` folder
+* Add .env under `Local-Unit-Test-Support` folder
 * Edit .env file and add GEMINI_API_KEY into it
 ```
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY
@@ -178,7 +178,7 @@ pip install -r requirements.txt
 ```
 ### Usage
 ```bash
-python RegressionTest/get_report.py <repo_url> [--from commit] [--to commit] [--keep] [--output your_output_file_name]
+python Local-Unit-Test-Support/get_report.py <repo_url> [--from commit] [--to commit] [--keep] [--output your_output_file_name]
 ```
 
 #### Options
@@ -191,15 +191,15 @@ python RegressionTest/get_report.py <repo_url> [--from commit] [--to commit] [--
 ### Example Execution Commands
 #### `Add` Test Example
 ```bash
-python RegressionTest/get_report.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --from=fe80de68f76600d43d1ddc3711ade55a64b03d0b --to=150831357ecca2d2ed946bf36ed4a85131276e77 --output=add_report
+python Local-Unit-Test-Support/get_report.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --from=fe80de68f76600d43d1ddc3711ade55a64b03d0b --to=150831357ecca2d2ed946bf36ed4a85131276e77 --output=add_report
 ```
 
 #### `Remove` Test Example
 ```bash
-python RegressionTest/get_report.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --output=remove_report
+python Local-Unit-Test-Support/get_report.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --output=remove_report
 ```
 
 #### `Update` Test Example
 ```bash
-python RegressionTest/get_report.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --from=e4f8319c380af60f2e1607cfc2afbf3dd6ecdc63 --to=3bd666a1214fe5eea1e41e87ea59bf34d5548b17 --output=update_report
+python Local-Unit-Test-Support/get_report.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --from=e4f8319c380af60f2e1607cfc2afbf3dd6ecdc63 --to=3bd666a1214fe5eea1e41e87ea59bf34d5548b17 --output=update_report
 ```
