@@ -1,23 +1,26 @@
-# Unit Test Support Demo
+# Local Unit Test Support
+### An AI-Powered `Local Unit Test Maintenance Solution` provided by `CoverIQ`. 
 ## Contents
 - [Introduction](#introduction)
-- [LLM Suggestion](#llm-suggestion)
 - [Examples](#add-test-example)
-- [Workflow](#workflow)
+    -  [Adding test cases](#add-test-example)
+    -  [Removing test cases](#remove-test-example)
+    -  [Updating test cases](#update-test-example)
+- [System Workflow](#system-workflow)
 - [Installation](#installation)
-- [Execution Examples](#execution-examples)
+- [Example Execution Commands](#example-execution-commands)
 ## Introduction
-This tool leverages LLMs to analyze git diffs, affected test functions, and test code, providing suggestions on which tests to add, update, or remove.  
-We use [example repo](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git) to showcase how the tool works in practice. 
-## LLM Suggestion
-The LLM will generate a report that includes the following:
+This tool leverages RAG to analyze git diffs, affected test functions, and test code, providing suggestions in a report with the following format: 
 - suggestion type
 - test function name
 - description
 - original code
 - updated code
+
+We use [example repo](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git) to showcase how the tool works in practice. 
+
 ## `Add` Test Example
-[Commit Change Link](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo/commit/150831357ecca2d2ed946bf36ed4a85131276e77)
+<!-- [Commit Change Link](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo/commit/150831357ecca2d2ed946bf36ed4a85131276e77) -->
 ### Commit Change
 Add `multiply` function in `math_utils.py`  
 However, No corresponding test function was added for the newly added function  
@@ -46,7 +49,7 @@ def test_multiply():
 [Full Report](RegressionTest/add_report.md)
 
 ## `Remove` Test Example
-[Commit Change Link](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo/commit/29445144fe589cb3a6086674a211f50db1579494)
+<!-- [Commit Change Link](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo/commit/29445144fe589cb3a6086674a211f50db1579494) -->
 ### Commit Change
 Remove `subtract` function in `math_utils.py`  
 ```python
@@ -65,7 +68,7 @@ def test_subtract_negative():
 ```
 ### Suggestion
 The LLM gives two suggestions: one to remove `test_subtract`, and another to remove `test_subtract_negative`  
-Below is the first suggestion to remove `test_subtract`       
+<!-- Below is the first suggestion to remove `test_subtract`       
 - ### Description  
 The 'subtract' function has been removed from math_utils.py, so this (`test_subtract`) test for the removed function should also be removed.
 - ### Suggested Code Removal 
@@ -73,11 +76,11 @@ The 'subtract' function has been removed from math_utils.py, so this (`test_subt
 def test_subtract():
     result = subtract(10, 3)
     assert result == 7
-```  
-[Full Report](RegressionTest/remove_report.md)
+```   -->
+See more in the [Full Report](RegressionTest/remove_report.md).
 
 ## `Update` Test Example
-[Commit Change Link](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo/commit/cdebf828370103a7614175b07d0e83e8ed649ace)
+<!-- [Commit Change Link](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo/commit/cdebf828370103a7614175b07d0e83e8ed649ace) -->
 ### Commit Change
 Changed the padding length in `pad_number` function in `math_utils.py` from 3 to 5   
 #### Original Code
@@ -91,8 +94,8 @@ def pad_number(x):
     return str(x).zfill(5)
 ```
 ### Suggestion
-The LLM suggests that `test_pad_num` should be modified      
-- ### Description  
+The LLM suggests that `test_pad_num` should be modified to reflect the change, padding to a length of 5 instead of 3.       
+<!-- - ### Description  
 Update assertions to reflect the change in `pad_number` which now pads to a length of 5 instead of 3.
 - ### Original Code
 ```python
@@ -117,10 +120,10 @@ def test_pad_num():
     
     result = pad_number(0)
     assert result == '00000'
-```  
-[Full Report](RegressionTest/update_report.md)
+```   -->
+See more in the [Full Report](RegressionTest/update_report.md). 
 
-## Workflow
+## System Workflow
 ### 1. Get Code Chunks
 - Retrieve all relevant code files 
 - Parse each file into code chunks with metadata:
@@ -185,7 +188,7 @@ python RegressionTest/get_report.py <repo_url> [--from commit] [--to commit] [--
 - `--keep`: Keep the cloned repo (default: repo is deleted after diff)
 - `--output`: Output File Name (default: `report`)
 
-### Execution Examples
+### Example Execution Commands
 #### `Add` Test Example
 ```bash
 python RegressionTest/get_report.py https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo.git --from=fe80de68f76600d43d1ddc3711ade55a64b03d0b --to=150831357ecca2d2ed946bf36ed4a85131276e77 --output=add_report
