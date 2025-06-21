@@ -169,8 +169,8 @@ npm install
 * Pick the work directory you want to anaylze
 * Clone the [example repo](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo) and choose the root directory as work directory
 * Press Ctrl+Shift+P and type **Analyze Unit Tests with CoverIQ** or click the **Analyze Unit Tests with CoverIQ** button on the upper right corner
-* Pick the base commit
+* Pick the base commit  
 ![Pick FROM commit](https://github.com/user-attachments/assets/a5182413-b2c3-4b0d-bca6-d883c56ba78a)
-* Pick the target commit
+* Pick the target commit  
 ![Pick TO commit](https://github.com/user-attachments/assets/1a7de01f-92a2-4cfb-a815-1736a449e035)
 * It will show the preview result in the work directory
