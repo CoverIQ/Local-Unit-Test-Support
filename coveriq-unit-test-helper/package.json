@@ -1,6 +1,6 @@
 {
   "name": "coveriq-unit-test-helper",
-  "displayName": "CoverIQ Unit Test Helper",
+  "displayName": "CoverIQ Local Unit Test Support",
   "description": "An AI-powered assistant for maintaining local unit tests.",
   "version": "0.0.1",
   "engines": {
@@ -13,11 +13,11 @@
   "main": "./out/extension.js",
   "contributes": {
     "configuration": {
-      "title": "CoverIQ Unit Test Helper",
+      "title": "CoverIQ Local Unit Test Support",
       "properties": {
         "coveriq.pythonPath": {
           "type": "string",
-          "default": "C:\\CoverIQ\\unitestenv\\Scripts\\python.exe",
+          "default": "/Users/james.tu/workspace/CoverIQ/CoverIQ-TCSE2025/.venv/bin/python",
           "description": "Path to the Python executable (e.g., from a venv) that has all dependencies (faiss-cpu, etc.) installed."
         }
       }
@@ -25,7 +25,7 @@
     "commands": [
       {
         "command": "coveriq-unit-test-helper.analyze",
-        "title": "Analyze Unit Tests with CoverIQ"
+        "title": "CoverIQ: Unit Test Maintenance Scan"
       }
     ],
     "menus": {

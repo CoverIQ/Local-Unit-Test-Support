@@ -1,19 +1,78 @@
 ## Contents
 - [Introduction](#introduction)
+- [System Workflow](#system-workflow)
+- [Installation](#installation)
+- [Usage](#usage)
 - [Examples](#add-test-example)
     -  [Adding test cases](#add-test-example)
     -  [Removing test cases](#remove-test-example)
     -  [Updating test cases](#update-test-example)
-- [System Workflow](#system-workflow)
-- [Installation](#installation)
-- [Usage](#usage)
-
 
 ## Introduction
 
-**CoverIQ Unit Test Helper** extension intelligently analyzes your project's Git history to understand recent code changes. It then provides clear, actionable suggestions to `add`, `update`, or `remove` tests, ensuring your test suite remains relevant and robust. All suggestions are presented in a clean Markdown report, right inside your IDE, for you to review and act upon.
+**CoverIQ Local Unit Test Support** extension intelligently analyzes your project's Git history to understand recent code changes. It then provides clear, actionable suggestions to `add`, `update`, or `remove` tests, ensuring your test suite remains relevant and robust. All suggestions are presented in a clean Markdown report, right inside your IDE, for you to review and act upon.
 
 The goal is to help you maintain high-quality test coverage with minimal effort, allowing you to focus more on development.
+
+## System Workflow
+### User Interaction in VS Code
+- Launch analysis via Command Palette or editor icon
+- Select commit range from an interactive Git log dropdown
+### Extension Core (TypeScript)
+- Gathers context (selected commits, workspace path)
+- Executes the backend Python engine with the captured context
+### Python Analysis Engine
+- Analyzes code changes using AST parsing and RAG (with Gemini)
+- Generates a structured list of test maintenance suggestions
+### Markdown Report Viewer
+- Saves the analysis results as a `report.md` file in the workspace
+
+
+## Installation
+### Python
+Python 3.9+  
+Node.js 18+
+
+### Add .env
+* Add .env under `Local-Unit-Test-Support` folder
+* Edit .env file and add GEMINI_API_KEY into it
+```
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+```
+
+### Install Python Dependencies
+In project root directory
+```bash
+pip install -r requirements.txt
+```
+
+### Install Node.js dependencies
+```bash
+cd coveriq-unit-test-helper
+npm install
+```
+
+### Set Python executable path from virtual environment
+* Go to `package.json` file
+* Go to `contributes` &rightarrow; `configuration` &rightarrow; `properties` &rightarrow; `coveriq.pythonPath` &rightarrow;
+* Set `default`: path to your python executable
+
+
+### VS Code Version
+* Make sure your VS Code Version is over 1.101.0
+
+### Usage
+* Go to `/src/extension.ts`
+* Press F5
+* Pick the work directory you want to anaylze
+* Clone the [example repo](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo) and choose the root directory as work directory
+* Press Ctrl+Shift+P and type **CoverIQ: Unit Test Maintenance Scan** or click the **CoverIQ: Unit Test Maintenance Scan** button on the upper right corner
+* Pick the base commit  
+![Pick FROM commit](https://github.com/user-attachments/assets/a5182413-b2c3-4b0d-bca6-d883c56ba78a)
+* Pick the target commit  
+![Pick TO commit](https://github.com/user-attachments/assets/1a7de01f-92a2-4cfb-a815-1736a449e035)
+* It will show the preview result in the work directory
+
 
 ## `Add` Test Example
 <!-- [Commit Change Link](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo/commit/150831357ecca2d2ed946bf36ed4a85131276e77) -->
@@ -117,60 +176,3 @@ def test_pad_num():
     result = pad_number(0)
     assert result == '00000'
 ```   -->
-
-## System Workflow
-### User Interaction in VS Code
-- Launch analysis via Command Palette or editor icon
-- Select commit range from an interactive Git log dropdown
-### Extension Core (TypeScript)
-- Gathers context (selected commits, workspace path)
-- Executes the backend Python engine with the captured context
-### Python Analysis Engine
-- Analyzes code changes using AST parsing and RAG (with Gemini)
-- Generates a structured list of test maintenance suggestions
-### Markdown Report Viewer
-- Saves the analysis results as a `report.md` file in the workspace
-
-
-## Installation
-### Python
-Python 3.9+  
-Node.js 18+
-
-### Add .env
-* Add .env under `Local-Unit-Test-Support` folder
-* Edit .env file and add GEMINI_API_KEY into it
-```
-GEMINI_API_KEY=YOUR_GEMINI_API_KEY
-```
-
-### Install Python Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### Install Node.js dependencies
-```bash
-npm install
-```
-
-### Set Python executable path from virtual environment
-* Go to `package.json` file
-* Go to `contributes` &rightarrow; `configuration` &rightarrow; `properties` &rightarrow; `coveriq.pythonPath` &rightarrow;
-* Set the path to `default`
-
-
-### VS Code Version
-* Make sure your VS Code Version is over 1.101.0
-
-### Usage
-* Go to `/src/extension.ts`
-* Press F5
-* Pick the work directory you want to anaylze
-* Clone the [example repo](https://github.com/HankStat/CoverIQ-Unit-Test-Support-Demo) and choose the root directory as work directory
-* Press Ctrl+Shift+P and type **Analyze Unit Tests with CoverIQ** or click the **Analyze Unit Tests with CoverIQ** button on the upper right corner
-* Pick the base commit  
-![Pick FROM commit](https://github.com/user-attachments/assets/a5182413-b2c3-4b0d-bca6-d883c56ba78a)
-* Pick the target commit  
-![Pick TO commit](https://github.com/user-attachments/assets/1a7de01f-92a2-4cfb-a815-1736a449e035)
-* It will show the preview result in the work directory
