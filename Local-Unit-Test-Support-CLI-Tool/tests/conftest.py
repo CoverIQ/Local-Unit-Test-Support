@@ -1,5 +1,7 @@
 import os
 import pytest
+import sys
+sys.path.append('../')
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 
