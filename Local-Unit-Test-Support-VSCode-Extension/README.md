@@ -33,6 +33,9 @@ The goal is to help you maintain high-quality test coverage with minimal effort,
 Python 3.9+  
 Node.js 18+
 
+### VS Code Version
+* Make sure your VS Code Version is over 1.101.0
+
 ### Add .env
 * Add .env under `Local-Unit-Test-Support` folder
 * Edit .env file and add GEMINI_API_KEY into it
@@ -47,8 +50,8 @@ pip install -r requirements.txt
 ```
 
 ### Install Node.js dependencies
+In `CoverIQ-Local-Unit-Test-Support-VSCode-Extension`
 ```bash
-cd coveriq-unit-test-helper
 npm install
 ```
 
@@ -57,9 +60,10 @@ npm install
 * Go to `contributes` &rightarrow; `configuration` &rightarrow; `properties` &rightarrow; `coveriq.pythonPath` &rightarrow;
 * Set `default`: path to your python executable
 
-
-### VS Code Version
-* Make sure your VS Code Version is over 1.101.0
+### Run Build Task
+* Go to Command Palette (Press Cmd+Shift+P/Ctrl+Shift+P)
+* Type `Tasks: Run Build Task`
+* Select `npm compile`
 
 ### Usage
 * Go to `/src/extension.ts`
