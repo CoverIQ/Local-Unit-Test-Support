@@ -12,10 +12,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "coveriq-unit-test-helper" is now active!');
+	console.log('Congratulations, your extension "CoverIQ-Local-Unit-Test-Support" is now active!');
 
 	// Register the main command for the extension. This command is defined in package.json.
-	let disposable = vscode.commands.registerCommand('coveriq-unit-test-helper.analyze', async () => {
+	let disposable = vscode.commands.registerCommand('CoverIQ-Local-Unit-Test-Support.analyze', async () => {
         // Get the currently opened folder in VS Code. This is our target repository.
         const workspaceFolders = vscode.workspace.workspaceFolders;
         if (!workspaceFolders) {

@@ -1,5 +1,5 @@
 {
-  "name": "coveriq-unit-test-helper",
+  "name": "CoverIQ-Local-Unit-Test-Support",
   "displayName": "CoverIQ Local Unit Test Support",
   "description": "An AI-powered assistant for maintaining local unit tests.",
   "version": "0.0.1",
@@ -24,20 +24,20 @@
     },
     "commands": [
       {
-        "command": "coveriq-unit-test-helper.analyze",
+        "command": "CoverIQ-Local-Unit-Test-Support.analyze",
         "title": "CoverIQ: Unit Test Maintenance Scan"
       }
     ],
     "menus": {
       "commandPalette": [
         {
-          "command": "coveriq-unit-test-helper.analyze",
+          "command": "CoverIQ-Local-Unit-Test-Support.analyze",
           "when": "true"
         }
       ],
       "editor/title": [
         {
-          "command": "coveriq-unit-test-helper.analyze",
+          "command": "CoverIQ-Local-Unit-Test-Support.analyze",
           "group": "navigation"
         }
       ]
